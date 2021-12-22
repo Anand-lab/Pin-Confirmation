@@ -76,7 +76,7 @@ const SessionResumedRequestHandler = {
         "<alexa:name type='first' personId='" +
         person.personId +
         "'/>" +
-        ", you were verified and your driver will be arrived in 8 minutes.";
+        ", you were verified and your driver will be arrived in 10 minutes.";
     } else if (verificationTaskStatus == "NOT_ENABLED") {
       speechText = "Your request was completed.";
     } else {
