@@ -4,25 +4,7 @@
     "default": {
       "skillInfrastructure": {
         "@ask-cli/lambda-deployer": {
-          "deployState": {
-            "default": {
-              "lambda": {
-                "arn": "arn:aws:lambda:us-east-1:718583862047:function:ask-pintester-default-default-1611242889092",
-                "lastModified": "2021-05-13T14:07:36.861+0000",
-                "revisionId": "f112a859-d5ae-41a3-866c-6c4bf1f2c7e4"
-              },
-              "iamRole": "arn:aws:iam::718583862047:role/ask-lambda-PINTester-1611242886903"
-            }
-          }
-        }
-      },
-      "skillId": "amzn1.ask.skill.33c25dc2-82cb-4c27-b682-06cd190913da",
-      "skillMetadata": {
-        "lastDeployHash": "gYSnwIV8HsEEGeFJYcE5W7hUUc0="
-      },
-      "code": {
-        "default": {
-          "lastDeployHash": "S4fDGMfMOHh6U/h3Esg9fiMf/dA="
+          "deployState": {}
         }
       }
     }
