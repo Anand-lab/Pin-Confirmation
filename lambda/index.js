@@ -29,9 +29,21 @@ const SpaceNeedleOrderIntentHandler = {
   handle(handlerInput) {
     console.log("You are under BookRide Intent handler");
     const speakOutput =
-      "A ride to the Space Needle will cost five dollars and take ten minutes.";
+      "A ride to the Space Needle will cost five dollars and take ten minutes. Ready to book it?";
+    return handlerInput.responseBuilder.speak(speakOutput).reprompt(speakOutput).getResponse();
+  },
+};
+
+const YesIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      Alexa.getRequestType(handlerInput.requestEnvelope) === "IntentRequest" &&
+      Alexa.getIntentName(handlerInput.requestEnvelope) === "AMAZON.YesIntent"
+    );
+  },
+  handle(handlerInput) {
+    console.log("You are under BookRide Intent handler");
     return handlerInput.responseBuilder
-      .speak(speakOutput)
       .addDirective({
         type: "Connections.StartConnection",
         uri: "connection://AMAZON.VerifyPerson/2",
@@ -43,10 +55,10 @@ const SpaceNeedleOrderIntentHandler = {
             },
           },
         },
-        token: "token",
+        token: "sampletoken",
       })
       .getResponse();
-  },
+  }
 };
 
 const SessionResumedRequestHandler = {
@@ -67,16 +79,15 @@ const SessionResumedRequestHandler = {
       return handlerInput.responseBuilder.speak(speechText).getResponse();
     }
 
-    const verificationTaskResult =
-      handlerInput.requestEnvelope.request.cause.result;
-    const verificationTaskStatus = verificationTaskResult.status;
+    const verificationTaskStatus =
+      handlerInput.requestEnvelope.request.cause.result.status;
 
-    if (verificationTaskStatus == "ACHIEVED") {
+    if (verificationTaskStatus === "ACHIEVED") {
       speechText =
         "<alexa:name type='first' personId='" +
         person.personId +
         "'/>" +
-        ", you were verified and your driver will be arrived in 10 minutes.";
+        ", you were verified and your driver will be arrived in 8 minutes.";
     } else if (verificationTaskStatus == "NOT_ENABLED") {
       speechText = "Your request was completed.";
     } else {
@@ -174,15 +185,18 @@ const ErrorHandler = {
 
 const LogRequestInterceptor = {
   process(handlerInput) {
-    console.log("======== Request ==========");
-    console.log(JSON.stringify(handlerInput, null, 2));
+    console.log(
+      `REQUEST ENVELOPE = ${JSON.stringify(handlerInput.requestEnvelope)}`
+    );
   },
 };
 
+
 const LogResponseInterceptor = {
-  process(response) {
-    console.log("======== Response ==========");
-    console.log(JSON.stringify(response, null, 2));
+  process(handlerInput) {
+    console.log(
+      `RESPONSE = ${JSON.stringify(handlerInput.responseBuilder.getResponse())}`
+    );
   },
 };
 
@@ -193,6 +207,7 @@ exports.handler = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
     LaunchRequestHandler,
     SpaceNeedleOrderIntentHandler,
+    YesIntentHandler,
     SessionResumedRequestHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
